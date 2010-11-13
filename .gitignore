@@ -1,3 +1,6 @@
 /bin
 /build
 .gradle*
+/src/main/java/JavaParser.java
+/src/main/java/JavaLexer.java
+/src/main/java/Java.tokens
