@@ -1,0 +1,26 @@
+apply plugin: 'java'
+
+repositories {  
+    mavenCentral()
+}
+    
+dependencies {
+    compile      group: 'org.antlr',  name: 'antlr',    version: '3+'
+}
+
+task(generateGrammarSource, type: JavaExec) {
+    main = 'org.antlr.Tool'
+    classpath = sourceSets.main.compileClasspath
+    args '-fo', 'src/main/java', 'src/main/antlr/Java.g'
+}
+generateGrammarSource.inputs.files 'src/main/antlr/Java.g'
+generateGrammarSource.outputs.files 'src/main/java/JavaLexer.java', 'src/main/java/JavaParser.java'
+compileJava.dependsOn generateGrammarSource
+
+
+
+task(cleanGrammarSource, type: Delete) {
+    delete 'src/main/java/JavaLexer.java', 'src/main/java/JavaParser.java', 'src/main/java/Java.tokens'
+}
+clean.dependsOn cleanGrammarSource
+
