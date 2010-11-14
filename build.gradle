@@ -11,11 +11,17 @@ dependencies {
 task(generateGrammarSource, type: JavaExec) {
     main = 'org.antlr.Tool'
     classpath = sourceSets.main.compileClasspath
-    args '-fo', 'src/main/java', 'src/main/antlr/Java.g'
+    args '-Xconversiontimeout', '30000', '-fo', 'src/main/java', 'src/main/antlr/Java.g'
 }
 generateGrammarSource.inputs.files 'src/main/antlr/Java.g'
-generateGrammarSource.outputs.files 'src/main/java/JavaLexer.java', 'src/main/java/JavaParser.java'
+generateGrammarSource.outputs.files 'src/main/java/JavaLexer.java', 'src/main/java/JavaParser.java', 'src/main/java/Java.tokens'
 compileJava.dependsOn generateGrammarSource
+
+task copyToLib(type: Copy) {
+    into('build/libs')
+    from configurations.default
+}
+jar.dependsOn copyToLib
 
 task(cleanGrammarSource, type: Delete) {
     delete 'src/main/java/JavaLexer.java', 'src/main/java/JavaParser.java', 'src/main/java/Java.tokens'
