@@ -17,8 +17,6 @@ generateGrammarSource.inputs.files 'src/main/antlr/Java.g'
 generateGrammarSource.outputs.files 'src/main/java/JavaLexer.java', 'src/main/java/JavaParser.java'
 compileJava.dependsOn generateGrammarSource
 
-
-
 task(cleanGrammarSource, type: Delete) {
     delete 'src/main/java/JavaLexer.java', 'src/main/java/JavaParser.java', 'src/main/java/Java.tokens'
 }
